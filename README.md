@@ -1,5 +1,7 @@
 # TP10DPBO2025C1
 
+Saya Yazid Madarizel dengan NIM 2305328 mengerjakan soal TP 10 dalam mata kuliah Desain dan Pemrograman Berorientasi Objek untuk keberkahanNya maka saya tidak melakukan kecurangan seperti yang telah dispesifikasikan. Aamiin.
+
 # Sistem Manajemen Restoran
 
 Sistem Manajemen Restoran adalah program web berbasis PHP yang didesain untuk membantu pengelolaan operasional restoran, termasuk manajemen kategori menu, item menu, dan pesanan. Program ini menggunakan pola arsitektur MVVM (Model-View-ViewModel) dan database MySQL.
