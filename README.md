@@ -6,7 +6,10 @@ Saya Yazid Madarizel dengan NIM 2305328 mengerjakan soal TP 10 dalam mata kuliah
 
 Sistem Manajemen Restoran adalah program web berbasis PHP yang didesain untuk membantu pengelolaan operasional restoran, termasuk manajemen kategori menu, item menu, dan pesanan. Program ini menggunakan pola arsitektur MVVM (Model-View-ViewModel) dan database MySQL.
 
-## Desain Sistem
+## Desain Program
+
+![Untitled Diagram drawio](https://github.com/user-attachments/assets/972ada85-d8d6-49ba-b82e-a7c69b42df0a)
+
 
 ### Arsitektur Program (MVVM)
 
