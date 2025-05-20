@@ -2,25 +2,21 @@
 require_once 'views/template/header.php';
 ?>
 
-<h2 class="text-xl mb-4">Daftar Kategori Menu</h2>
-<a href="index.php?entity=menu_category&action=add" class="bg-yellow-600 text-white px-4 py-2 rounded mb-4 inline-block hover:bg-yellow-700">Tambah Kategori</a>
-<table class="w-full border bg-white rounded-lg overflow-hidden">
-    <tr class="bg-yellow-100">
-        <th class="border p-2">Nama Kategori</th>
-        <th class="border p-2">Deskripsi</th>
-        <th class="border p-2">Aksi</th>
-    </tr>
-    <?php foreach ($categoryList as $category): ?>
-    <tr class="hover:bg-yellow-50">
-        <td class="border p-2"><?php echo $category['name']; ?></td>
-        <td class="border p-2"><?php echo $category['description']; ?></td>
-        <td class="border p-2">
-            <a href="index.php?entity=menu_category&action=edit&id=<?php echo $category['id']; ?>" class="text-blue-500 hover:underline">Edit</a>
-            <a href="index.php?entity=menu_category&action=delete&id=<?php echo $category['id']; ?>" class="text-red-500 ml-2 hover:underline" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">Hapus</a>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
+<h2 class="text-xl mb-4"><?php echo isset($category) ? 'Edit Kategori Menu' : 'Tambah Kategori Menu'; ?></h2>
+<form action="index.php?entity=menu_category&action=<?php echo isset($category) ? 'update&id=' . $category['id'] : 'save'; ?>" method="POST" class="space-y-4 bg-white p-6 rounded-lg shadow-md max-w-lg">
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Nama Kategori:</label>
+        <input type="text" name="name" value="<?php echo isset($category) ? $category['name'] : ''; ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-500 focus:ring-opacity-50" required>
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Deskripsi:</label>
+        <textarea name="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-500 focus:ring-opacity-50" rows="3"><?php echo isset($category) ? $category['description'] : ''; ?></textarea>
+    </div>
+    <div class="flex justify-between">
+        <button type="submit" class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Simpan</button>
+        <a href="index.php?entity=menu_category" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Batal</a>
+    </div>
+</form>
 
 <?php
 require_once 'views/template/footer.php';
