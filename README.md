@@ -139,9 +139,8 @@ Sistem mengimplementasikan keamanan dengan menggunakan:
 2. **Prepared Statements** untuk mencegah SQL injection pada setiap query
 3. **Parameter Binding** untuk memastikan data yang diinput aman
 
-## Cara Penggunaan
+## Dokumentasi
 
-1. Import file `restaurant.sql` ke dalam database MySQL
-2. Konfigurasikan koneksi database di file `config/Database.php`
-3. Akses program melalui browser dengan URL `http://localhost/restaurant/index.php`
+https://github.com/user-attachments/assets/d09be939-e820-44a7-a172-ffd138ffec28
+
 
