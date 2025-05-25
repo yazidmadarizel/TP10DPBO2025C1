@@ -10,134 +10,90 @@ Sistem Manajemen Restoran adalah program web berbasis PHP yang didesain untuk me
 
 ![Untitled Diagram drawio](https://github.com/user-attachments/assets/972ada85-d8d6-49ba-b82e-a7c69b42df0a)
 
+### menu\_category (kategori menu)
 
-### Arsitektur Program (MVVM)
+* `id` (primary key)
+* `name` (nama kategori)
+* `description` (deskripsi kategori)
 
-Program ini dibuat dengan pola arsitektur MVVM (Model-View-ViewModel) yang membagi program menjadi tiga lapisan utama:
+### menu\_item (item menu)
 
-1. **Model**: Bertanggung jawab untuk interaksi langsung dengan database
-   - `MenuCategory.php` - Model untuk tabel kategori menu
-   - `MenuItem.php` - Model untuk tabel item menu
-   - `Order.php` - Model untuk tabel pesanan
+* `id` (primary key)
+* `name` (nama item)
+* `description` (deskripsi item)
+* `price` (harga)
+* `category_id` (foreign key ke kategori menu)
+* `is_available` (status ketersediaan)
 
-2. **ViewModel**: Bertindak sebagai perantara antara Model dan View, menyediakan logika bisnis
-   - `MenuCategoryViewModel.php` - ViewModel untuk kategori menu
-   - `MenuItemViewModel.php` - ViewModel untuk item menu
-   - `OrderViewModel.php` - ViewModel untuk pesanan
+### order (pesanan)
 
-3. **View**: Menampilkan data kepada pengguna
-   - Form dan tampilan daftar untuk setiap entitas
+* `id` (primary key)
+* `customer_name` (nama pelanggan)
+* `table_number` (nomor meja)
+* `menu_item_id` (foreign key ke item menu)
+* `quantity` (jumlah item)
+* `order_time` (waktu pemesanan)
+* `status` (pending/preparing/served/paid)
 
-### Struktur Database
+## Alur Penjelasan
 
-Database terdiri dari tiga tabel utama:
+### 1. Manajemen Kategori Menu
 
-1. **menu_category**: Menyimpan kategori menu
-   - `id`: ID unik kategori (primary key)
-   - `name`: Nama kategori
-   - `description`: Deskripsi kategori
+* Lihat daftar semua kategori menu
+* Tambah kategori baru
+* Edit kategori yang ada
+* Hapus kategori
 
-2. **menu_item**: Menyimpan item menu
-   - `id`: ID unik item menu (primary key)
-   - `name`: Nama item menu
-   - `description`: Deskripsi item menu
-   - `price`: Harga item menu
-   - `category_id`: ID kategori (foreign key ke tabel menu_category)
-   - `is_available`: Status ketersediaan item menu
+**Informasi yang dicatat**: nama dan deskripsi kategori
 
-3. **order**: Menyimpan pesanan
-   - `id`: ID unik pesanan (primary key)
-   - `customer_name`: Nama pelanggan
-   - `table_number`: Nomor meja
-   - `menu_item_id`: ID item menu yang dipesan (foreign key ke tabel menu_item)
-   - `quantity`: Jumlah item yang dipesan
-   - `order_time`: Waktu pesanan dibuat
-   - `status`: Status pesanan (pending, preparing, served, paid)
+### 2. Manajemen Item Menu
 
-## Alur Program
+* Lihat daftar semua item menu
+* Tambah item menu baru
+* Edit item menu
+* Hapus item menu
 
-### 1. Alur Menu Kategori
+**Informasi yang dicatat**: nama item, deskripsi, harga, kategori, status ketersediaan
 
-- **Daftar Kategori**: User dapat melihat semua kategori menu yang tersedia
-  - URL: `index.php?entity=menu_category&action=list`
-  - View: `menu_category_list.php`
+### 3. Manajemen Pesanan
 
-- **Tambah Kategori**: User dapat menambahkan kategori menu baru
-  - URL: `index.php?entity=menu_category&action=add`
-  - Form: `menu_category_form.php`
-  - Proses: Data kategori baru disimpan ke database melalui `MenuCategoryViewModel`
+* Lihat semua pesanan
+* Tambah pesanan baru
+* Edit detail pesanan
+* Hapus pesanan
 
-- **Edit Kategori**: User dapat mengubah kategori menu yang sudah ada
-  - URL: `index.php?entity=menu_category&action=edit&id=X`
-  - Form: `menu_category_form.php` (pre-filled dengan data kategori)
-  - Proses: Data kategori diperbarui melalui `MenuCategoryViewModel`
+**Informasi yang dicatat**: nama pelanggan, nomor meja, item yang dipesan, jumlah, waktu pesanan, status pesanan
 
-- **Hapus Kategori**: User dapat menghapus kategori menu
-  - URL: `index.php?entity=menu_category&action=delete&id=X`
-  - Proses: Kategori dihapus dari database melalui `MenuCategoryViewModel`
+## Alur Aplikasi
 
-### 2. Alur Item Menu
+### Akses Awal
 
-- **Daftar Item Menu**: User dapat melihat semua item menu yang tersedia
-  - URL: `index.php?entity=menu_item&action=list`
-  - View: `menu_item_list.php`
+* Pengguna mengunjungi `index.php`
+* Tampilan default menunjukkan daftar pesanan
+* Menu navigasi tersedia untuk mengakses kategori menu, item menu, dan pesanan
 
-- **Tambah Item Menu**: User dapat menambahkan item menu baru
-  - URL: `index.php?entity=menu_item&action=add`
-  - Form: `menu_item_form.php` (dengan dropdown kategori)
-  - Proses: Data item menu baru disimpan ke database melalui `MenuItemViewModel`
+### Contoh Alur Data (Menambah Pesanan)
 
-- **Edit Item Menu**: User dapat mengubah item menu yang sudah ada
-  - URL: `index.php?entity=menu_item&action=edit&id=X`
-  - Form: `menu_item_form.php` (pre-filled dengan data item menu)
-  - Proses: Data item menu diperbarui melalui `MenuItemViewModel`
+**Input Pengguna (Form)** → `index.php` → `OrderViewModel` → Model `Order` → **Database**
 
-- **Hapus Item Menu**: User dapat menghapus item menu
-  - URL: `index.php?entity=menu_item&action=delete&id=X`
-  - Proses: Item menu dihapus dari database melalui `MenuItemViewModel`
+1. Pengguna mengisi form pesanan
+2. Data dikirim ke `index.php`
+3. `OrderViewModel` memproses data
+4. Model `Order` menyimpan data ke database
 
-### 3. Alur Pesanan
+## Fitur Teknis
 
-- **Daftar Pesanan**: User dapat melihat semua pesanan yang ada
-  - URL: `index.php?entity=order&action=list` (default)
-  - View: `order_list.php`
+### Arsitektur MVVM
 
-- **Tambah Pesanan**: User dapat menambahkan pesanan baru
-  - URL: `index.php?entity=order&action=add`
-  - Form: `order_form.php` (dengan dropdown item menu)
-  - Proses: Data pesanan baru disimpan ke database melalui `OrderViewModel`
-
-- **Edit Pesanan**: User dapat mengubah pesanan yang sudah ada
-  - URL: `index.php?entity=order&action=edit&id=X`
-  - Form: `order_form.php` (pre-filled dengan data pesanan)
-  - Proses: Data pesanan diperbarui melalui `OrderViewModel`
-
-- **Hapus Pesanan**: User dapat menghapus pesanan
-  - URL: `index.php?entity=order&action=delete&id=X`
-  - Proses: Pesanan dihapus dari database melalui `OrderViewModel`
-
-## Fitur Data Binding
-
-program mengimplementasikan fitur data binding untuk memudahkan transfer data antara ViewModel dan View:
-
-1. **List Binding**:
-   - Data dari ViewModel diambil dan diikat ke tampilan list (misal: `$categoryList = $viewModel->getCategoryList()`)
-   - Data ditampilkan dengan loop di view (misal: `foreach ($categoryList as $category)`)
-
-2. **Form Binding**:
-   - Data untuk formulir edit diambil dari ViewModel (misal: `$category = $viewModel->getCategoryById($_GET['id'])`)
-   - Data digunakan untuk mengisi nilai default input form
-
-3. **Foreign Key Binding**:
-   - Data relasi untuk dropdown di form diambil dengan binding (misal: daftar kategori untuk form menu item)
+* **Model**: Akses data dan interaksi database (`MenuCategory`, `MenuItem`, `Order`)
+* **ViewModel**: Logika bisnis dan data binding (`MenuCategoryViewModel`, `MenuItemViewModel`, `OrderViewModel`)
+* **View**: Tampilan antarmuka pengguna (form, tabel list)
 
 ## Keamanan
 
-Sistem mengimplementasikan keamanan dengan menggunakan:
-
-1. **PDO (PHP Data Objects)** untuk koneksi database
-2. **Prepared Statements** untuk mencegah SQL injection pada setiap query
-3. **Parameter Binding** untuk memastikan data yang diinput aman
+* Menggunakan **PDO** untuk koneksi database
+* Menggunakan **Prepared Statements** untuk semua query
+* **Parameter Binding** untuk validasi dan mencegah SQL Injection
 
 ## Dokumentasi
 
